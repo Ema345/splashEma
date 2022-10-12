@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">splashEma</string>
+    <string name="usuario_label">Usuario</string>
+    <string name="contra_label">Contraseña</string>
+    <string name="oklabel">Accesar</string>
+    <string name="olvidolabel">Olvide Contraseña</string>
+    <string name="registrolabel">Registro</string>
+    <string name="app_name2">Registro</string>
+    <string name="bienvenido_al_registro">Bienvenido al Registro</string>
+    <string name="no">No</string>
+    <string name="estudiante">Estudiante</string>
+    <string name="trabajador">Trabajador</string>
+    <string name="terminar_registro">Terminar registro</string>
+    <string name="androgino">Androgino</string>
+    <string name="mujer">Mujer</string>
+    <string name="hombre">Hombre</string>
+    <string name="si">Si</string>
+    <string name="nombre_de_usuario">Nombre de Usuario</string>
+    <string name="contrase_a">Contraseña</string>
+    <string name="correo">Correo</string>
+    <string name="sexo">Sexo</string>
+    <string name="tipo_de_usuario">Tipo de Usuario</string>
+    <string name="mascotas">Mascotas</string>
+</resources>
