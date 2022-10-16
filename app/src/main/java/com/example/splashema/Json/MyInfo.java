@@ -1,12 +1,17 @@
 package com.example.splashema.Json;
 import java.io.Serializable;
+
 public class MyInfo implements Serializable {
     private String usuario;
     private String password;
     private String correo;
     private String edad;
-    private Boolean sexo;
-    private Boolean TUsuario;
+    private String sexo;
+    private String Tusu;
+    private String hijos;
+    private String Telefono;
+    private String FechaNac;
+
     public MyInfo() {
     }
     public String getUsuario() {
@@ -33,16 +38,52 @@ public class MyInfo implements Serializable {
     public void setCorreo(String correo) {
         this.correo = correo;
     }
-    public Boolean getSexo() {
+    public String getEdad() {
+        return edad;
+    }
+
+    public void setEdad(String edad) {
+        this.edad = edad;
+    }
+
+    public String getSexo() {
         return sexo;
     }
-    public void setSexo(Boolean sexo) {
+
+    public void setSexo(String sexo) {
         this.sexo = sexo;
     }
-    public Boolean getTUsuario() {
-        return TUsuario;
+
+    public String getTusu() {
+        return Tusu;
     }
-    public void setTUsuario(Boolean TUsuario) {
-        this.TUsuario = TUsuario;
+
+    public void setTusu(String tusu) {
+        Tusu = tusu;
     }
+
+    public String getHijos() {
+        return hijos;
+    }
+
+    public void setHijos(String hijos) {
+        this.hijos = hijos;
+    }
+
+    public String getTelefono() {
+        return Telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        Telefono = telefono;
+    }
+    public String getFechaNac() {
+        return FechaNac;
+    }
+
+    public void setFechaNac(String fechaNac) {
+        FechaNac = fechaNac;
+    }
+
+
 }
