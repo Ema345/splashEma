@@ -24,4 +24,9 @@
     <string name="fecha_de_nacimiento">Fecha de nacimiento</string>
     <string name="numero_de_telefono">Numero de telefono</string>
     <string name="edad">Edad</string>
+    <string name="telefono">Telefono</string>
+    <string name="fecha">Fecha</string>
+    <string name="usuario">Usuario</string>
+    <string name="olvido_su_contrase_a">Olvido su contraseña):</string>
+    <string name="felicidades_por_accesar">Felicidades por accesar</string>
 </resources>

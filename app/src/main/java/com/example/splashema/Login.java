@@ -86,7 +86,16 @@ public class Login extends AppCompatActivity {
                 }
 
             }
-        }); //hasta aqui la funcionalidad de botones
+        });
+        Button OlvideContra = findViewById(R.id.olvidePassB);
+        OlvideContra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent olvideContra = new Intent(Login.this, olvideContra.class);
+                startActivity(olvideContra);
+            }
+        });
+        //hasta aqui la funcionalidad de botones
     }
     private boolean validar() {
         boolean retorno = true;

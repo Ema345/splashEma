@@ -2,6 +2,7 @@ package com.example.splashema;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,7 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -25,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class Registro extends AppCompatActivity {
@@ -32,6 +36,8 @@ public class Registro extends AppCompatActivity {
     RadioButton sexoB;
     Button login;
     Button Registro;
+    ImageButton Calendario;
+    EditText FechaNac;
 
     private static final String TAG = "MainActivity";
     public static final String archivo = "archivo.json";
@@ -52,6 +58,7 @@ public class Registro extends AppCompatActivity {
         Registro = findViewById(R.id.Registro);
         Button Registro = findViewById(R.id.Registro);
         Button login = findViewById(R.id.sesion);
+        ImageButton calendario = findViewById(R.id.imageButton);
         RadioButton sexoB = findViewById(R.id.radioBMujer);
         Switch SwitchH = findViewById(R.id.idswitch);
         EditText usuario = findViewById(R.id.TxtUsu);
@@ -69,6 +76,24 @@ public class Registro extends AppCompatActivity {
             public void onClick(View view) {
                 Intent login = new Intent(Registro.this, Login.class);
                 startActivity(login);
+            }
+        });
+        calendario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar cal = Calendar.getInstance();
+                int anio = cal.get(Calendar.YEAR);
+                int mes = cal.get(Calendar.MONTH);
+                int dia = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dpd = new DatePickerDialog(Registro.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                        String fecha = i+"/"+i1+"/"+i2;
+                        FechaNac.setText(fecha);
+                    }
+                }, anio, mes, dia);
+                dpd.show();
             }
         });
 
@@ -116,11 +141,6 @@ public class Registro extends AppCompatActivity {
             }
         });
     }
-
-
-
-
-
     public void Objet2Json(MyInfo info){
         Gson gson =null;
         String json= null;
@@ -209,4 +229,5 @@ public class Registro extends AppCompatActivity {
         }
         return new String(hexChars);
     }
+
 }
