@@ -30,27 +30,30 @@ import java.util.List;
 public class Registro extends AppCompatActivity {
     Switch SwitchH;
     RadioButton sexoB;
-    Button login, Registro;
-    TextView tienehijos;
+    Button login;
+    Button Registro;
+
     private static final String TAG = "MainActivity";
     public static final String archivo = "archivo.json";
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
     byte []res = null;
     String pass, hijos;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
         sexoB = (RadioButton)findViewById(R.id.radioBMujer);
-        tienehijos = (TextView)findViewById(R.id.textView13);
         SwitchH= (Switch) findViewById(R.id.idswitch);
         login = (Button)findViewById(R.id.sesion);
-        Registro = (Button)findViewById(R.id.Registro);
         setContentView(R.layout.activity_registro);
         List<MyInfo> list =new ArrayList<MyInfo>();
-        Button registro = findViewById(R.id.Registro);
+        Registro = findViewById(R.id.Registro);
+        Button Registro = findViewById(R.id.Registro);
         Button login = findViewById(R.id.sesion);
+        RadioButton sexoB = findViewById(R.id.radioBMujer);
+        Switch SwitchH = findViewById(R.id.idswitch);
         EditText usuario = findViewById(R.id.TxtUsu);
         EditText pswd = findViewById(R.id.TxtContra);
         EditText mail = findViewById(R.id.TxtCorreo);
@@ -82,10 +85,10 @@ public class Registro extends AppCompatActivity {
                 String sexo = null;
                 if (estadoRb==true){
                     sexo = "Femenino";
-                    Toast.makeText(getApplicationContext(), sexo, Toast.LENGTH_LONG).show();
                 }else{
                     sexo = "Masculino";
                 }
+
                 boolean estadoCb = trabajador.isChecked();
                 String tipoU = null;
                 if(estadoCb==true){
@@ -94,9 +97,11 @@ public class Registro extends AppCompatActivity {
                     tipoU = "Estudiante";
                 }
 
-
-
-
+                if(SwitchH.isChecked()){
+                    hijos = "Con hijos";
+                }else{
+                    hijos = "sin hijos";
+                }
                 MyInfo info= new MyInfo();
                 info.setUsuario(String.valueOf(usuario.getText()));
                 info.setPassword(pass);
@@ -111,18 +116,10 @@ public class Registro extends AppCompatActivity {
             }
         });
     }
-    public void onClick(View view){
-        if (view.getId() == R.id.idswitch) {
-            if(SwitchH.isChecked()){
-                tienehijos.setText("Tiene hijos");
-                hijos = "Con hijos";
-            }else{
-                tienehijos.setText("No tiene hijos");
-                hijos = "sin hijos";
-            }
 
-        }
-    }
+
+
+
 
     public void Objet2Json(MyInfo info){
         Gson gson =null;

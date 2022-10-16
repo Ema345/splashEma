@@ -88,7 +88,25 @@ public class Login extends AppCompatActivity {
             }
         }); //hasta aqui la funcionalidad de botones
     }
+    private boolean validar() {
+        boolean retorno = true;
+        String usuario1, password;
+        usuario1 = usuario.getText().toString();
+        password = pswds.getText().toString();
+        if (usuario1.isEmpty()) {
+            txtusu.setError("Ingrese su usuario");
+            retorno = false;
+        } else {
 
+        }
+        if (password.isEmpty()) {
+            txtpas.setError("Ingrese su contraseña");
+            retorno = false;
+        } else {
+
+        }
+        return retorno;
+    }
     public boolean Read() {
         if (!isFileExits()) {
             return false;
@@ -184,23 +202,5 @@ public class Login extends AppCompatActivity {
 
     }//modificacion validar
 
-    private boolean validar() {
-        boolean retorno = true;
-        String usuario1, password;
-        usuario1 = usuario.getText().toString();
-        password = pswds.getText().toString();
-        if (usuario1.isEmpty()) {
-            txtusu.setError("Ingrese su usuario");
-            retorno = false;
-        } else {
-            txtusu.setError("Ingrese su usuario");
-        }
-        if (password.isEmpty()) {
-            txtpas.setError("Ingrese su contraseña");
-            retorno = false;
-        } else {
-            txtpas.setError("Ingrese su contraseña");
-        }
-        return retorno;
-    }
+
 }
