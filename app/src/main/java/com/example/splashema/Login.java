@@ -172,6 +172,7 @@ public class Login extends AppCompatActivity {
         for (MyInfo myInfo : list) {
             if (myInfo.getUsuario().equals(usr) && myInfo.getPassword().equals(pass)) {
                 Intent intent = new Intent(Login.this, menu.class);
+                intent.putExtra( "MyInfo" , myInfo );
                 startActivity(intent);
                 i = 1;
             }
