@@ -17,6 +17,8 @@ import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.splashema.Json.MyData;
 import com.example.splashema.Json.MyInfo;
 import com.google.gson.Gson;
 import java.io.File;
@@ -38,7 +40,8 @@ public class Registro extends AppCompatActivity {
     Button Registro;
     ImageButton Calendario;
     EditText FechaNac;
-
+    List<MyData> lista;
+    int []images = { R.drawable.icono1,R.drawable.icono2,R.drawable.icono3};
     private static final String TAG = "MainActivity";
     public static final String archivo = "archivo.json";
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
@@ -50,6 +53,7 @@ public class Registro extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
+        lista = new ArrayList<MyData>();
         sexoB = (RadioButton)findViewById(R.id.radioBMujer);
         SwitchH= (Switch) findViewById(R.id.idswitch);
         login = (Button)findViewById(R.id.sesion);
@@ -127,6 +131,25 @@ public class Registro extends AppCompatActivity {
                 }else{
                     hijos = "sin hijos";
                 }
+                MyData myData = null;
+                for( int i = 0; i < 3; i++)
+                {
+                    myData = new MyData();
+                    myData.setContra( String.format( "Contraseña%d" , (int)(Math.random()*10000) ) );
+                    if(i==0){
+                        myData.setRed(String.format( "Facebook"));
+                        myData.setImage(images[0]);
+                    }
+                    if(i==1){
+                        myData.setRed(String.format( "Instagram"));
+                        myData.setImage(images[1]);
+                    }
+                    if(i==2){
+                        myData.setRed(String.format( "Whatsapp" ));
+                        myData.setImage(images[2]);
+                    }
+                    lista.add(myData);
+                }
                 MyInfo info= new MyInfo();
                 info.setUsuario(String.valueOf(usuario.getText()));
                 info.setPassword(pass);
@@ -137,6 +160,7 @@ public class Registro extends AppCompatActivity {
                 info.setHijos(hijos);
                 info.setTelefono(String.valueOf(Telefono.getText()));
                 info.setFechaNac(String.valueOf(FechaNac.getText()));
+                info.setContras(lista);
                 List2Json(info,list);
             }
         });

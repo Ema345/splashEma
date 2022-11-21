@@ -11,7 +11,6 @@
     <string name="estudiante">Estudiante</string>
     <string name="trabajador">Trabajador</string>
     <string name="terminar_registro">Terminar registro</string>
-    <string name="androgino">Androgino</string>
     <string name="mujer">Mujer</string>
     <string name="hombre">Hombre</string>
     <string name="si">Si</string>
@@ -30,4 +29,15 @@
     <string name="olvido_su_contrase_a">Olvido su contraseña):</string>
     <string name="felicidades_por_accesar">Felicidades por accesar</string>
     <string name="contrase_as">Contraseñas:</string>
+    <string name="agregar">Agregar contraseña</string>
+    <string name="eliminar">Eliminar contraseña</string>
+    <string name="editar">Editar contraseña</string>
+    <string name="nota">Nota: solo se pueden agregar 10 contraseñas máximo</string>
+    <string name="nuevacontra">Ingresa la nueva contraseña</string>
+    <string name="nuevacontra2">Nueva contraseña</string>
+    <string name="red_social">Red social:</string>
+    <string name="nuevacontra3">Agregar la nueva contraseña</string>
+    <string name="termine_de_eliminar">Termine de eliminar</string>
+    <string name="termine_de_editar">Termine de editar</string>
+    <string name="a">a</string>
 </resources>

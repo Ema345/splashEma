@@ -1,5 +1,6 @@
 package com.example.splashema.Json;
 import java.io.Serializable;
+import java.util.List;
 
 public class MyInfo implements Serializable {
     private String usuario;
@@ -11,6 +12,15 @@ public class MyInfo implements Serializable {
     private String hijos;
     private String Telefono;
     private String FechaNac;
+    private List<MyData> contras;
+
+    public List<MyData> getContras() {
+        return contras;
+    }
+
+    public void setContras(List<MyData> contras) {
+        this.contras = contras;
+    }
 
     public MyInfo() {
     }

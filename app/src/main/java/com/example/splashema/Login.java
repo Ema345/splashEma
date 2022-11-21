@@ -82,7 +82,8 @@ public class Login extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Por favor complete todos los campos", Toast.LENGTH_LONG).show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "Se ha producido un error al intentar logearte", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), String.format(String.valueOf(e)), Toast.LENGTH_LONG).show();
+                    Log.d(TAG, String.valueOf(e));
                 }
 
             }

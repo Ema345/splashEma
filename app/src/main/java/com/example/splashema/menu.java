@@ -1,9 +1,14 @@
 package com.example.splashema;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -21,7 +26,9 @@ public class menu extends AppCompatActivity {
     private TextView usuario;
     private ListView listView;
     private List<MyData> list;
-    private int []images = { R.drawable.icono1,R.drawable.icono2,R.drawable.icono3};
+    public static String TAG = "ola";
+    private int []images = { R.drawable.icono1,R.drawable.icono2,R.drawable.icono3, R.drawable.icono4, R.drawable.icono5,
+            R.drawable.icono6, R.drawable.icono7, R.drawable.icono8, R.drawable.icono9, R.drawable.icono10};
 
 
     @Override
@@ -36,33 +43,6 @@ public class menu extends AppCompatActivity {
         Intent intent = getIntent();
         listView = (ListView) findViewById(R.id.listViewId);
         list = new ArrayList<MyData>();
-        for( int i = 0; i < 3; i++)
-        {
-            myData = new MyData();
-            myData.setContra( String.format( "Contraseña%d" , (int)(Math.random()*10000) ) );
-            if(i==0){
-                myData.setRed(String.format( "Facebook"));
-                myData.setImage(images[0]);
-            }
-            if(i==1){
-                myData.setRed(String.format( "Instagram"));
-                myData.setImage(images[1]);
-            }
-            if(i==2){
-                myData.setRed(String.format( "Whatsapp" ));
-                myData.setImage(images[2]);
-            }
-            list.add( myData );
-        }
-        MyAdapter myAdapter = new MyAdapter( list , getBaseContext() );
-        listView.setAdapter(myAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
-            {
-                toast( i );
-            }
-        });
         if( intent != null)
         {
             aux = intent.getStringExtra("Usuario" );
@@ -76,11 +56,61 @@ public class menu extends AppCompatActivity {
                     if (object instanceof MyInfo) {
                         info = (MyInfo) object;
                         usuario.setText("Bienvenido " + info.getUsuario() + " de edad " + info.getEdad());
+                        list = info.getContras();
                     }
                 }
             }
         }
 
+        MyAdapter myAdapter = new MyAdapter( list , getBaseContext() );
+        listView.setAdapter(myAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                toast( i );
+            }
+        });
+
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        boolean flag = false;
+        flag = super.onCreateOptionsMenu(menu);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu ,  menu);
+        return flag;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
+        MyInfo info = null;
+        Object object = null;
+        Intent intent = getIntent();
+        object = intent.getExtras().get("MyInfo");
+        info = (MyInfo) object;
+        switch (item.getItemId() ) {
+            case R.id.agregarId:
+                Intent olvideContra = new Intent(menu.this, Agregarcontra.class);
+                olvideContra.putExtra("MyInfo", info);
+                startActivity(olvideContra);
+                break;
+            case R.id.elimId:
+                Intent elimContra = new Intent(menu.this, eliminacontra.class);
+                elimContra.putExtra("MyInfo", info);
+                startActivity(elimContra);
+                break;
+            case R.id.editarId:
+                Intent editaContra = new Intent(menu.this, editacontra.class);
+                editaContra.putExtra("MyInfo", info);
+                startActivity(editaContra);
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return false;
     }
     private void toast( int i )
     {

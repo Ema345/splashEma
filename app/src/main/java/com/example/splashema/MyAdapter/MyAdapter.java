@@ -18,7 +18,6 @@ public class MyAdapter extends BaseAdapter implements Serializable {
     private List<MyData> list;
     private Context context;
     private LayoutInflater layoutInflater;
-    private int []images = { R.drawable.cruz,R.drawable.editar};
 
     public MyAdapter(List<MyData> list, Context context)
     {
@@ -67,19 +66,13 @@ public class MyAdapter extends BaseAdapter implements Serializable {
         TextView textView = null;
         TextView textView2 = null;
         ImageView imageView = null;
-        ImageView imageView2 = null;
-        ImageView imageView3 = null;
         view = layoutInflater.inflate(R.layout.activity_list_view, null );
         textView = view.findViewById(R.id.textViewId2);
         textView2 = view.findViewById(R.id.textViewId1);
         textView.setText(list.get(i).getContra());
         textView2.setText(list.get(i).getRed());
         imageView = view.findViewById(R.id.imageView5);
-        imageView2 = view.findViewById(R.id.imageView4);
-        imageView3 = view.findViewById(R.id.imageView);
         imageView.setImageResource(list.get(i).getImage());
-        imageView.setImageResource(images[0]);
-        imageView.setImageResource(images[1]);
         return view;
     }
 }
