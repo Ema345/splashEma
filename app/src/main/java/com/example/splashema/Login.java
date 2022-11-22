@@ -93,6 +93,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent olvideContra = new Intent(Login.this, olvideContra.class);
+                //olvideContra.putExtra("Json",json);
                 startActivity(olvideContra);
             }
         });

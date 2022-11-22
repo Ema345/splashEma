@@ -26,7 +26,7 @@
     <string name="telefono">Telefono</string>
     <string name="fecha">Fecha</string>
     <string name="usuario">Usuario</string>
-    <string name="olvido_su_contrase_a">Olvido su contraseña):</string>
+    <string name="olvido_su_contrase_a">¿Seguro olvidaste tu contraseña? Da click al boton</string>
     <string name="felicidades_por_accesar">Felicidades por accesar</string>
     <string name="contrase_as">Contraseñas:</string>
     <string name="agregar">Agregar contraseña</string>
