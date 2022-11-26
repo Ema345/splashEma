@@ -92,9 +92,11 @@ public class Login extends AppCompatActivity {
         OlvideContra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent olvideContra = new Intent(Login.this, olvideContra.class);
-                //olvideContra.putExtra("Json",json);
-                startActivity(olvideContra);
+                for (MyInfo myInfo : list) {
+                    Intent olvideContra = new Intent(Login.this, olvideContra.class);
+                    olvideContra.putExtra("MyInfo", myInfo);
+                    startActivity(olvideContra);
+                }
             }
         });
         //hasta aqui la funcionalidad de botones
