@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -43,6 +44,7 @@ import java.util.Map;
 
 public class olvideContra extends AppCompatActivity {
     Button olvideContra;
+    EditText usuario;
     public static final String TAG = "Ema";
     public static final String KEY = "+4xij6jQRSBdCymMxweza/uMYo+o0EUg";
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
@@ -53,6 +55,7 @@ public class olvideContra extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_olvide_contra);
         olvideContra = findViewById(R.id.button);
+        usuario = findViewById(R.id.confirmusuario);
         olvideContra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
@@ -63,6 +66,7 @@ public class olvideContra extends AppCompatActivity {
                 MyDesUtil myDesUtil2 = null;
                 Intent intent = getIntent();
                 String texto = null;
+                String usu = null;
                 String password = null;
                 String pass = null;
                 String mens = null;
@@ -72,6 +76,8 @@ public class olvideContra extends AppCompatActivity {
                 List<MyInfo> list =new ArrayList<MyInfo>();
                 object = intent.getExtras().get("MyInfo");
                 info = (MyInfo) object;
+                usu = usuario.getText().toString();
+                if(usu.equals(info.getUsuario())){
                 correo = info.getCorreo();
                 password = String.format ("Contraseña%d", (int)(Math.random()*100) );
                 mens = "Tu nueva contrasena es: "+password;
@@ -79,6 +85,8 @@ public class olvideContra extends AppCompatActivity {
                 pass = bytesToHex(res);
                 info.setPassword(pass);
                 List2Json(info,list);
+                Log.d(TAG, correo);
+                Log.d(TAG, mens);
                 myDesUtil = new MyDesUtil( );
                 myDesUtil2 = new MyDesUtil( );
                 if( isNotNullAndNotEmpty( KEY ) )
@@ -107,6 +115,7 @@ public class olvideContra extends AppCompatActivity {
                     }
                 Log.i( TAG , testCifrado2);
                 texto = crearJsonCorreo(testCifrado, testCifrado2);
+                texto.replaceAll("\\n|\\t", "");
                 Log.i( TAG , texto);
                 if( texto == null || texto.length() == 0 )
                 {
@@ -114,10 +123,13 @@ public class olvideContra extends AppCompatActivity {
                 }
                 if(sendInfo(texto))
                 {
-                    Toast.makeText(getBaseContext() , "Se envío el texto" , Toast.LENGTH_LONG );
+                    Log.i( TAG , "Se envio pa");
                     return;
                 }
                 Toast.makeText(getBaseContext() , "Error en el envío" , Toast.LENGTH_LONG );
+            }else{
+                    Toast.makeText(getBaseContext() , "Usuario incorrecto" , Toast.LENGTH_LONG ).show();
+                }
             }
         });
     }
@@ -127,6 +139,7 @@ public class olvideContra extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = null;
         JSONObject jsonObject = null;
         String url = "https://us-central1-nemidesarrollo.cloudfunctions.net/envio_correo";
+        text.replaceAll("\\n|\\t", "");
         RequestQueue requestQueue = null;
         if( text == null || text.length() == 0 )
         {
@@ -136,6 +149,7 @@ public class olvideContra extends AppCompatActivity {
         try
         {
             jsonObject.put("Correo" , text );
+            Log.i(TAG, String.valueOf(jsonObject));
         }
         catch (JSONException e)
         {
