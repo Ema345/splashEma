@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.splashema.Json.MyData;
 import com.example.splashema.Json.MyInfo;
+import com.example.splashema.des.MyDesUtil;
 import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -40,9 +41,10 @@ public class Registro extends AppCompatActivity {
     Button Registro;
     ImageButton Calendario;
     EditText FechaNac;
+    public static final String KEY = "+4xij6jQRSBdCymMxweza/uMYo+o0EUg";
     List<MyData> lista;
     int []images = { R.drawable.icono1,R.drawable.icono2,R.drawable.icono3};
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "Registro";
     public static final String archivo = "archivo.json";
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
     byte []res = null;
@@ -181,10 +183,19 @@ public class Registro extends AppCompatActivity {
     }
     public void List2Json(MyInfo info,List<MyInfo> list){
         Gson gson =null;
+        MyDesUtil myDesUtil = null;
         String json= null;
+        String json2= null;
         gson =new Gson();
+        myDesUtil = new MyDesUtil();
         list.add(info);
-        json =gson.toJson(list, ArrayList.class);
+        json2 =gson.toJson(list, ArrayList.class);
+        if( isNotNullAndNotEmpty( KEY ) )
+        {
+            myDesUtil.addStringKeyBase64( KEY );
+        }
+        json= myDesUtil.cifrar(json2);
+
         if (json == null)
         {
             Log.d(TAG, "Error json");
@@ -253,5 +264,8 @@ public class Registro extends AppCompatActivity {
         }
         return new String(hexChars);
     }
-
+    public boolean isNotNullAndNotEmpty( String aux )
+    {
+        return aux != null && aux.length() > 0;
+    }
 }

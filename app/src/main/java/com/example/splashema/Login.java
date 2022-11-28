@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.splashema.Json.MyInfo;
+import com.example.splashema.des.MyDesUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.File;
@@ -28,8 +29,10 @@ public class Login extends AppCompatActivity {
 
     Button registro;
     private List<MyInfo> list;
-    public static String TAG = "mensaje";
+    public static String TAG = "Login";
     String json = null;
+    public static final String KEY = "+4xij6jQRSBdCymMxweza/uMYo+o0EUg";
+    String json2 = null;
     public static String usr;
 
     //modificacion de validar
@@ -124,6 +127,8 @@ public class Login extends AppCompatActivity {
         if (!isFileExits()) {
             return false;
         }
+        MyDesUtil myDesUtil = null;
+        myDesUtil = new MyDesUtil();
         File file = getFile();
         FileInputStream fileInputStream = null;
         byte[] bytes = null;
@@ -131,14 +136,26 @@ public class Login extends AppCompatActivity {
         try {
             fileInputStream = new FileInputStream(file);
             fileInputStream.read(bytes);
-            json = new String(bytes);
-            Log.d(TAG, json);
+            json2 = new String(bytes);
+            Log.d(TAG, json2);
+            if( isNotNullAndNotEmpty( KEY ) )
+            {
+                myDesUtil.addStringKeyBase64( KEY );
+            }
+            json = myDesUtil.desCifrar(json2);
+            if(!json.isEmpty()) {
+                Log.d(TAG, json);
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return false;
+    }
+    public boolean isNotNullAndNotEmpty( String aux )
+    {
+        return aux != null && aux.length() > 0;
     }
 
     public void json2List(String json) {

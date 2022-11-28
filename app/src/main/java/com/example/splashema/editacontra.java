@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.splashema.Json.MyData;
 import com.example.splashema.Json.MyInfo;
 import com.example.splashema.MyAdapter.MyAdapter;
+import com.example.splashema.des.MyDesUtil;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -32,6 +33,7 @@ public class editacontra extends AppCompatActivity {
     public static String TAG = "mensaje";
     private List<MyData> lista;
     Button editacontra;
+    public static final String KEY = "+4xij6jQRSBdCymMxweza/uMYo+o0EUg";
     private ListView listView;
     private EditText contra, red;
     private TextView indice;
@@ -86,12 +88,21 @@ public class editacontra extends AppCompatActivity {
             }
         });
     }
-    public void List2Json(MyInfo info, List<MyInfo> list){
+    public void List2Json(MyInfo info,List<MyInfo> list){
         Gson gson =null;
+        MyDesUtil myDesUtil = null;
         String json= null;
+        String json2= null;
         gson =new Gson();
+        myDesUtil = new MyDesUtil();
         list.add(info);
-        json =gson.toJson(list, ArrayList.class);
+        json2 =gson.toJson(list, ArrayList.class);
+        if( isNotNullAndNotEmpty( KEY ) )
+        {
+            myDesUtil.addStringKeyBase64( KEY );
+        }
+        json= myDesUtil.cifrar(json2);
+
         if (json == null)
         {
             Log.d(TAG, "Error json");
@@ -102,6 +113,10 @@ public class editacontra extends AppCompatActivity {
             writeFile(json);
         }
         Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_LONG).show();
+    }
+    public boolean isNotNullAndNotEmpty( String aux )
+    {
+        return aux != null && aux.length() > 0;
     }
     private boolean writeFile(String text){
         File file =null;
@@ -129,7 +144,6 @@ public class editacontra extends AppCompatActivity {
     }
     public int toast(int i)
     {
-        Toast.makeText(getBaseContext(),"esotilin", Toast.LENGTH_SHORT).show();
         return i;
     }
 }
