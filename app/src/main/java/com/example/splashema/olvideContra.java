@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.Map;
 
 public class olvideContra extends AppCompatActivity {
-    Button olvideContra;
+    Button olvideContra, Regresar;
     EditText usuario;
     public static final String TAG = "Ema";
     public static final String KEY = "+4xij6jQRSBdCymMxweza/uMYo+o0EUg";
@@ -55,7 +55,15 @@ public class olvideContra extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_olvide_contra);
         olvideContra = findViewById(R.id.button);
+        Regresar = findViewById(R.id.button2);
         usuario = findViewById(R.id.confirmusuario);
+        Regresar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(olvideContra.this, Login.class);
+                startActivity(intent);
+            }
+        });
         olvideContra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
@@ -79,16 +87,17 @@ public class olvideContra extends AppCompatActivity {
                 usu = usuario.getText().toString();
                 if(usu.equals(info.getUsuario())){
                 correo = info.getCorreo();
-                password = String.format ("Contraseña%d", (int)(Math.random()*100) );
-                mens = "Tu nueva contrasena es: "+password;
+                password = String.format ("Contrasena%d", (int)(Math.random()*100) );
+                mens = "<html><body><h1>Tu nueva contraseña es: "+password+"</h1></body></html>";
                 res = createSha1(password+"ola");
                 pass = bytesToHex(res);
                 info.setPassword(pass);
                 List2Json(info,list);
+
                 Log.d(TAG, correo);
                 Log.d(TAG, mens);
-                myDesUtil = new MyDesUtil( );
-                myDesUtil2 = new MyDesUtil( );
+                myDesUtil = new MyDesUtil();
+                myDesUtil2 = new MyDesUtil();
                 if( isNotNullAndNotEmpty( KEY ) )
                     {
                         myDesUtil.addStringKeyBase64( KEY );
@@ -114,16 +123,13 @@ public class olvideContra extends AppCompatActivity {
                         return;
                     }
                 Log.i( TAG , testCifrado2);
-                texto = crearJsonCorreo(testCifrado, testCifrado2);
-                texto.replaceAll("\\n|\\t", "");
-                Log.i( TAG , texto);
                 if( texto == null || texto.length() == 0 )
                 {
                     Toast.makeText(getBaseContext() , "Text is null" , Toast.LENGTH_LONG );
                 }
-                if(sendInfo(texto))
+                if(sendInfo(testCifrado, testCifrado2))
                 {
-                    Log.i( TAG , "Se envio pa");
+                    Log.i( TAG , "Se envio");
                     return;
                 }
                 Toast.makeText(getBaseContext() , "Error en el envío" , Toast.LENGTH_LONG );
@@ -134,12 +140,11 @@ public class olvideContra extends AppCompatActivity {
         });
     }
 
-    public boolean sendInfo( String text )
+    public boolean sendInfo( String text, String text2 )
     {
         JsonObjectRequest jsonObjectRequest = null;
         JSONObject jsonObject = null;
         String url = "https://us-central1-nemidesarrollo.cloudfunctions.net/envio_correo";
-        text.replaceAll("\\n|\\t", "");
         RequestQueue requestQueue = null;
         if( text == null || text.length() == 0 )
         {
@@ -148,7 +153,8 @@ public class olvideContra extends AppCompatActivity {
         jsonObject = new JSONObject( );
         try
         {
-            jsonObject.put("Correo" , text );
+            jsonObject.put("correo" , text );
+            jsonObject.put("mensaje" , text2 );
             Log.i(TAG, String.valueOf(jsonObject));
         }
         catch (JSONException e)
