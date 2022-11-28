@@ -17,30 +17,23 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.splashema.Json.MyData;
 import com.example.splashema.Json.MyInfo;
-import com.example.splashema.Json.MyMessage;
 import com.example.splashema.des.MyDesUtil;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class olvideContra extends AppCompatActivity {
     Button olvideContra, Regresar;
@@ -93,7 +86,6 @@ public class olvideContra extends AppCompatActivity {
                 pass = bytesToHex(res);
                 info.setPassword(pass);
                 List2Json(info,list);
-
                 Log.d(TAG, correo);
                 Log.d(TAG, mens);
                 myDesUtil = new MyDesUtil();
@@ -258,13 +250,5 @@ public class olvideContra extends AppCompatActivity {
             hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
         }
         return new String(hexChars);
-    }
-    public static String crearJsonCorreo(String Mail , String msg) {
-        Gson gson = new Gson();
-        Map<String, String> stringMap = new LinkedHashMap<>();
-        stringMap.put("correo", Mail);
-        stringMap.put("mensaje", msg);
-        String nuevojson = gson.toJson(stringMap);
-        return nuevojson;
     }
 }
