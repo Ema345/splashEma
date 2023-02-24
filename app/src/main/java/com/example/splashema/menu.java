@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,15 +19,18 @@ import android.widget.Toast;
 import com.example.splashema.Json.MyData;
 import com.example.splashema.Json.MyInfo;
 import com.example.splashema.MyAdapter.MyAdapter;
+import com.example.splashema.service.BdContras;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class menu extends AppCompatActivity {
     private TextView usuario;
+    private Button api;
     private ListView listView;
     private List<MyData> list;
-    public static String TAG = "ola";
+    public static String TAG = "Menu";
     private int []images = { R.drawable.icono1,R.drawable.icono2,R.drawable.icono3, R.drawable.icono4, R.drawable.icono5,
             R.drawable.icono6, R.drawable.icono7, R.drawable.icono8, R.drawable.icono9, R.drawable.icono10};
 
@@ -35,13 +39,24 @@ public class menu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        int idusu = 0;
         String aux = null;
         MyInfo info = null;
         Object object = null;
         MyData myData = null;
+        BdContras contrasbd = null;
+        contrasbd = new BdContras(getBaseContext());
+        api = findViewById(R.id.config);
         usuario = findViewById(R.id.textUser);
         Intent intent = getIntent();
         listView = (ListView) findViewById(R.id.listViewId);
+        api.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(menu.this, ApisActivity.class);
+                startActivity(intent);
+            }
+        });
         list = new ArrayList<MyData>();
         if( intent != null)
         {
@@ -56,7 +71,12 @@ public class menu extends AppCompatActivity {
                     if (object instanceof MyInfo) {
                         info = (MyInfo) object;
                         usuario.setText("Bienvenido " + info.getUsuario() + " de edad " + info.getEdad());
-                        list = info.getContras();
+                        idusu = info.getIdUser();
+                        Log.d(TAG, String.valueOf(idusu));
+                        list = contrasbd.getContras(idusu);
+                        if(list == null){
+                            Toast.makeText(getBaseContext(), "No hay contras", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }

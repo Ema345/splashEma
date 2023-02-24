@@ -21,6 +21,9 @@ import android.widget.Toast;
 import com.example.splashema.Json.MyData;
 import com.example.splashema.Json.MyInfo;
 import com.example.splashema.des.MyDesUtil;
+import com.example.splashema.service.BdContras;
+import com.example.splashema.service.BdUser;
+import com.example.splashema.service.UsuariosDBService;
 import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -77,6 +80,7 @@ public class Registro extends AppCompatActivity {
 
 
 
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,7 +110,17 @@ public class Registro extends AppCompatActivity {
         Registro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                BdContras contrasbd = null;
+                contrasbd = new BdContras(getBaseContext());
+                BdUser usuariosDB = null;
+                usuariosDB = new BdUser( getBaseContext( ) );
+                int id = 1;
+                if(usuariosDB.getUsuarios() == null){
+                    id = 1;
+                }
+                else{
+                    id = usuariosDB.getUsuarios().size();
+                }
                 res = createSha1(String.valueOf(pswd.getText())+"ola");
                 if( res != null ) {
                     Log.d(TAG, String.format("%s", bytesToHex(res)));
@@ -141,18 +155,27 @@ public class Registro extends AppCompatActivity {
                     if(i==0){
                         myData.setRed(String.format( "Facebook"));
                         myData.setImage(images[0]);
+                        myData.setIdContra(id);
                     }
                     if(i==1){
                         myData.setRed(String.format( "Instagram"));
                         myData.setImage(images[1]);
+                        myData.setIdContra(id);
                     }
                     if(i==2){
                         myData.setRed(String.format( "Whatsapp" ));
                         myData.setImage(images[2]);
+                        myData.setIdContra(id);
+                    }
+                    if(contrasbd.saveContra(myData)){
+                        Log.d(TAG,"Contraseña guardada");
                     }
                     lista.add(myData);
                 }
+                //List<MyInfo> usuarios = null;
+
                 MyInfo info= new MyInfo();
+                info.setIdUser(id);
                 info.setUsuario(String.valueOf(usuario.getText()));
                 info.setPassword(pass);
                 info.setCorreo(String.valueOf(mail.getText()));
@@ -163,7 +186,11 @@ public class Registro extends AppCompatActivity {
                 info.setTelefono(String.valueOf(Telefono.getText()));
                 info.setFechaNac(String.valueOf(FechaNac.getText()));
                 info.setContras(lista);
-                List2Json(info,list);
+                //List2Json(info,list);
+                if(usuariosDB.saveUsuario(info)){
+                    Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
     }

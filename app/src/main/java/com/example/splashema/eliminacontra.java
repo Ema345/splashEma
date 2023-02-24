@@ -19,6 +19,7 @@ import com.example.splashema.Json.MyData;
 import com.example.splashema.Json.MyInfo;
 import com.example.splashema.MyAdapter.MyAdapter;
 import com.example.splashema.des.MyDesUtil;
+import com.example.splashema.service.BdContras;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -52,7 +53,9 @@ public class eliminacontra extends AppCompatActivity {
         MyInfo info = null;
         object = intent.getExtras().get("MyInfo");
         info = (MyInfo) object;
-        lista = info.getContras();
+        BdContras contrasbd = null;
+        contrasbd = new BdContras(getBaseContext());
+        lista = contrasbd.getContras(info.getIdUser());
         MyAdapter myAdapter = new MyAdapter( lista , getBaseContext() );
         listView.setAdapter(myAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -71,7 +74,7 @@ public class eliminacontra extends AppCompatActivity {
                 object = intent.getExtras().get("MyInfo");
                 info = (MyInfo) object;
                 info.setContras(lista);
-                List2Json(info,list);
+                //List2Json(info,list);
                 Intent intent2 = new Intent(eliminacontra.this, menu.class);
                 intent2.putExtra("MyInfo", info);
                 startActivity(intent2);
@@ -135,6 +138,9 @@ public class eliminacontra extends AppCompatActivity {
     }
     private int toast(int i)
     {
+        BdContras contrasbd = null;
+        contrasbd = new BdContras(getBaseContext());
+        contrasbd.eliminaContra(lista.get(i).getContra(), lista.get(i).getIdContra());
         lista.remove(i);
         Toast.makeText(getBaseContext(),"eliminado", Toast.LENGTH_SHORT).show();
         return lista.size();

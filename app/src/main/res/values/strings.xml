@@ -41,4 +41,8 @@
     <string name="termine_de_editar">Termine de editar</string>
     <string name="a">a</string>
     <string name="regresar">Regresar</string>
+    <string name="panel_de_config">Panel de Config</string>
+    <string name="volumen">Volumen</string>
+    <string name="internet">Internet</string>
+    <string name="nfc">NFC</string>
 </resources>

@@ -19,6 +19,7 @@ import com.example.splashema.Json.MyData;
 import com.example.splashema.Json.MyInfo;
 import com.example.splashema.MyAdapter.MyAdapter;
 import com.example.splashema.des.MyDesUtil;
+import com.example.splashema.service.BdContras;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -49,9 +50,13 @@ public class editacontra extends AppCompatActivity {
         Intent intent = getIntent();
         Object object = null;
         MyInfo info = null;
+        int idusu;
         object = intent.getExtras().get("MyInfo");
         info = (MyInfo) object;
-        lista = info.getContras();
+        BdContras contrasbd = null;
+        contrasbd = new BdContras(getBaseContext());
+        idusu = info.getIdUser();
+        lista = contrasbd.getContras(idusu);
         contra = findViewById(R.id.contra);
         red = findViewById(R.id.socialred);
         indice = findViewById(R.id.indice);
@@ -74,14 +79,22 @@ public class editacontra extends AppCompatActivity {
                 Object object = null;
                 MyInfo info = null;
                 int i = 0;
+                BdContras contrasbd = null;
+                contrasbd = new BdContras(getBaseContext());
                 i= Integer.parseInt(String.valueOf(indice.getText()));
+                Log.d(TAG, String.valueOf(i));
                 lista.get(i).setContra(String.valueOf(contra.getText()));
                 lista.get(i).setRed(String.valueOf(red.getText()));
-                List<MyInfo> list =new ArrayList<MyInfo>();
+                //List<MyInfo> list =new ArrayList<MyInfo>();
+                if(contrasbd.editaContras((i+1),String.valueOf(contra.getText()),String.valueOf(red.getText()))){
+                    Log.d(TAG, "Contraseña editada");
+                }else{
+                    Log.d(TAG, "Contraseña no editada");
+                }
                 object = intent.getExtras().get("MyInfo");
                 info = (MyInfo) object;
                 info.setContras(lista);
-                List2Json(info,list);
+                //List2Json(info,list);
                 Intent intent2 = new Intent(editacontra.this, menu.class);
                 intent2.putExtra("MyInfo", info);
                 startActivity(intent2);

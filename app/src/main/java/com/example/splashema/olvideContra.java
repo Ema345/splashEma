@@ -19,6 +19,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.splashema.Json.MyInfo;
 import com.example.splashema.des.MyDesUtil;
+import com.example.splashema.service.BdUser;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -62,30 +63,53 @@ public class olvideContra extends AppCompatActivity {
             public void onClick(View view)
             {
                 MyDesUtil myDesUtil = null;
+                Boolean correcto = false;
                 String testCifrado = null;
                 String testCifrado2 = null;
                 MyDesUtil myDesUtil2 = null;
-                Intent intent = getIntent();
+                //Intent intent = getIntent();
                 String texto = null;
                 String usu = null;
                 String password = null;
                 String pass = null;
                 String mens = null;
                 String correo = null;
-                Object object = null;
+                //Object object = null;
                 MyInfo info = null;
-                List<MyInfo> list =new ArrayList<MyInfo>();
-                object = intent.getExtras().get("MyInfo");
-                info = (MyInfo) object;
+                //List<MyInfo> list =new ArrayList<MyInfo>();
+                //object = intent.getExtras().get("MyInfo");
+                //info = (MyInfo) object;
                 usu = usuario.getText().toString();
+                BdUser Usuariobd = new BdUser(olvideContra.this);
+                info = Usuariobd.GetUsuario(usu);
                 if(usu.equals(info.getUsuario())){
                 correo = info.getCorreo();
-                password = String.format ("Contrasena%d", (int)(Math.random()*100) );
-                mens = "<html><body><h1>Tu nueva contraseña es: "+password+"</h1></body></html>";
+                password = String.format ("Contrasena%d", (int)(Math.random()*100));
+                mens = "<html>\n" +
+                        "    <head>\n" +
+                        "        <style type=\"text/css\">\n" +
+                        "         p { color: black; font-family: Calisto MT; font-size: 30px; }\n" +
+                        "         </style>\n" +
+                        "        <title>Correo</title>\n" +
+                        "        <meta charset=\"UTF-8\">\n" +
+                        "        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+                        "        \n" +
+                        "    </head>\n" +
+                        "    \n" +
+                        "    <body style=\"background-color: #F0F8FF;\">\n" +
+                        "        <div style=\"text-align: center;\"><center>\n" +
+                        "            <p>Gracias por usar nuestra aplicación:)</p>\n" +
+                        "            <img src=\"https://blobs.omlet.gg/blob/bG9uZ2RhbjovL09ORS9sZHByb2QtdXMveU8wbERiWWZWWmhuNU90Mmtmc0ZPUT09\" width=\"150\" height=\"150\"  />\n" +
+                        "            <br>\n" +
+                        "            <p>Tu nueva contraseña es: "+ password +"</p>\n" +
+                        "            </center>\n" +
+                        "        </div>\n" +
+                        "    </body>\n" +
+                        "</html>\n";
                 res = createSha1(password+"ola");
                 pass = bytesToHex(res);
-                info.setPassword(pass);
-                List2Json(info,list);
+                correcto = Usuariobd.editaContra(info.getIdUser(),pass);
+                //List2Json(info,list);
                 Log.d(TAG, correo);
                 Log.d(TAG, mens);
                 myDesUtil = new MyDesUtil();
@@ -119,13 +143,19 @@ public class olvideContra extends AppCompatActivity {
                 {
                     Toast.makeText(getBaseContext() , "Text is null" , Toast.LENGTH_LONG );
                 }
-                if(sendInfo(testCifrado, testCifrado2))
-                {
-                    Log.i( TAG , "Se envio");
-                    return;
+                if(correcto){
+                    if(sendInfo(testCifrado, testCifrado2))
+                    {
+                        Log.i( TAG , "Registro modificado, Se envio");
+                        Toast.makeText(getBaseContext() , "Revise su correo" , Toast.LENGTH_LONG ).show();
+                        return;
+                    }else{
+                        Toast.makeText(getBaseContext() , "Error en el envío" , Toast.LENGTH_LONG ).show();
+                    }
+                }else{
+                    Toast.makeText(getBaseContext() , "Error al modificar registro" , Toast.LENGTH_LONG ).show();
                 }
-                Toast.makeText(getBaseContext() , "Error en el envío" , Toast.LENGTH_LONG );
-            }else{
+                }else{
                     Toast.makeText(getBaseContext() , "Usuario incorrecto" , Toast.LENGTH_LONG ).show();
                 }
             }

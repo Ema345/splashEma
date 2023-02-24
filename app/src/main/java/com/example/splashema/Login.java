@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.splashema.Json.MyInfo;
 import com.example.splashema.des.MyDesUtil;
+import com.example.splashema.service.BdUser;
+import com.example.splashema.service.UsuariosDBService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.File;
@@ -50,6 +52,11 @@ public class Login extends AppCompatActivity {
 
 
         registro = (Button) findViewById(R.id.RegistroB);
+        BdUser Usuariobd = new BdUser(Login.this);
+        if(Usuariobd.getUsuarios() == null){
+            Toast.makeText(getApplicationContext(), "No hay usuarios registrados", Toast.LENGTH_LONG).show();
+        }
+
         registro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,8 +72,8 @@ public class Login extends AppCompatActivity {
         txtusu = findViewById(R.id.userNameId);
 
         pswds = findViewById(R.id.passwordId);
-        Read();
-        json2List(json);
+        //Read();
+        //json2List(json);
 
 
         button2.setOnClickListener(new View.OnClickListener() {
@@ -95,11 +102,8 @@ public class Login extends AppCompatActivity {
         OlvideContra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                for (MyInfo myInfo : list) {
                     Intent olvideContra = new Intent(Login.this, olvideContra.class);
-                    olvideContra.putExtra("MyInfo", myInfo);
                     startActivity(olvideContra);
-                }
             }
         });
         //hasta aqui la funcionalidad de botones
@@ -190,17 +194,22 @@ public class Login extends AppCompatActivity {
 
     public void acceso() {
         int i = 0;
-        for (MyInfo myInfo : list) {
-            if (myInfo.getUsuario().equals(usr) && myInfo.getPassword().equals(pass)) {
+        BdUser Usuariobd = new BdUser(Login.this);
+        MyInfo myInfo2 = Usuariobd.GetUsuario(usr);
+        if(myInfo2 == null){
+            Toast.makeText(getApplicationContext(), "Error en la bd", Toast.LENGTH_LONG).show();
+        }else{
+            if (myInfo2.getUsuario().equals(usr) && myInfo2.getPassword().equals(pass)) {
+                Toast.makeText(getApplicationContext(), "Inicio de sesión exitoso", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(Login.this, menu.class);
-                intent.putExtra( "MyInfo" , myInfo );
+                intent.putExtra("MyInfo", myInfo2);
                 startActivity(intent);
                 i = 1;
             }
-        }
-        if (i == 0) {
-            Toast.makeText(getApplicationContext(), "El usuario o contraseña son incorrectos", Toast.LENGTH_LONG).show();
-            Log.d(TAG, pass);
+            if (i == 0) {
+                Toast.makeText(getApplicationContext(), "El usuario o contraseña son incorrectos", Toast.LENGTH_LONG).show();
+                Log.d(TAG, pass);
+            }
         }
     }
 
