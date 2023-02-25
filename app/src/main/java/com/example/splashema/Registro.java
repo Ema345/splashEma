@@ -119,7 +119,7 @@ public class Registro extends AppCompatActivity {
                     id = 1;
                 }
                 else{
-                    id = usuariosDB.getUsuarios().size();
+                    id = (usuariosDB.getUsuarios().size())+1;
                 }
                 res = createSha1(String.valueOf(pswd.getText())+"ola");
                 if( res != null ) {

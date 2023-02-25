@@ -197,7 +197,7 @@ public class Login extends AppCompatActivity {
         BdUser Usuariobd = new BdUser(Login.this);
         MyInfo myInfo2 = Usuariobd.GetUsuario(usr);
         if(myInfo2 == null){
-            Toast.makeText(getApplicationContext(), "Error en la bd", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "El usuario o contraseña son incorrectos", Toast.LENGTH_LONG).show();
         }else{
             if (myInfo2.getUsuario().equals(usr) && myInfo2.getPassword().equals(pass)) {
                 Toast.makeText(getApplicationContext(), "Inicio de sesión exitoso", Toast.LENGTH_LONG).show();
