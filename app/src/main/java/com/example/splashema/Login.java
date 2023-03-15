@@ -1,8 +1,13 @@
 package com.example.splashema;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.splashema.Json.MyInfo;
+import com.example.splashema.Permisos.Permisos;
 import com.example.splashema.des.MyDesUtil;
 import com.example.splashema.service.BdUser;
 import com.example.splashema.service.UsuariosDBService;
@@ -36,6 +42,8 @@ public class Login extends AppCompatActivity {
     public static final String KEY = "+4xij6jQRSBdCymMxweza/uMYo+o0EUg";
     String json2 = null;
     public static String usr;
+    private boolean tienePermisoCamara = false, tienePermisoInternet= false;
+    private static final int CODIGO_PERMISOS_CAMARA = 1, CODIGO_PERMISOS_INTERNET=2;
 
     //modificacion de validar
     private EditText pswds, usuario;
@@ -49,8 +57,9 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-
+        Permisos permisos = new Permisos();
+        permisos.verificarYPedirPermisosDeCamara(getApplicationContext(),Login.this);
+        permisos.verificarYPedirPermisosDeInternet(getApplicationContext(),Login.this);
         registro = (Button) findViewById(R.id.RegistroB);
         BdUser Usuariobd = new BdUser(Login.this);
         if(Usuariobd.getUsuarios() == null){
@@ -242,5 +251,28 @@ public class Login extends AppCompatActivity {
 
     }//modificacion validar
 
+    //Permisos------------------------------------------------------------------------------------------------------
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Permisos permisos = new Permisos();
+        switch (requestCode) {
+            case CODIGO_PERMISOS_CAMARA:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    permisos.permisoDeCamaraConcedido(getApplicationContext());
+                } else {
+                    permisos.permisoDeCamaraDenegado(getApplicationContext());
+                }
+                break;
+
+            case CODIGO_PERMISOS_INTERNET:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    permisos.permisoDeInternetConcedido(getApplicationContext());
+                } else {
+                    permisos.permisoDeInternetDenegado(getApplicationContext());
+                }
+                break;
+        }
+    }
 
 }
