@@ -108,7 +108,7 @@ public class olvideContra extends AppCompatActivity {
                         "</html>\n";
                 res = createSha1(password+"ola");
                 pass = bytesToHex(res);
-                correcto = Usuariobd.editaContra(info.getIdUser(),pass);
+                //correcto = Usuariobd.editaContra(info.getIdUser(),pass);
                 //List2Json(info,list);
                 Log.d(TAG, correo);
                 Log.d(TAG, mens);
@@ -143,7 +143,6 @@ public class olvideContra extends AppCompatActivity {
                 {
                     Toast.makeText(getBaseContext() , "Text is null" , Toast.LENGTH_LONG );
                 }
-                if(correcto){
                     if(sendInfo(testCifrado, testCifrado2))
                     {
                         Log.i( TAG , "Registro modificado, Se envio");
@@ -152,12 +151,13 @@ public class olvideContra extends AppCompatActivity {
                     }else{
                         Toast.makeText(getBaseContext() , "Error en el envío" , Toast.LENGTH_LONG ).show();
                     }
-                }else{
-                    Toast.makeText(getBaseContext() , "Error al modificar registro" , Toast.LENGTH_LONG ).show();
-                }
+
                 }else{
                     Toast.makeText(getBaseContext() , "Usuario incorrecto" , Toast.LENGTH_LONG ).show();
                 }
+                Intent intent = new Intent(olvideContra.this, Login2.class);
+                intent.putExtra("Contrasena", pass);
+                startActivity(intent);
             }
         });
     }

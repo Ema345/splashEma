@@ -12,12 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.splashema.Json.MyInfo;
 import com.example.splashema.Permisos.Permisos;
 import com.example.splashema.des.MyDesUtil;
 import com.example.splashema.service.BdUser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,35 +31,30 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Login extends AppCompatActivity {
+public class Login2 extends AppCompatActivity {
 
     Button registro;
     private List<MyInfo> list;
     public static String TAG = "Login";
-    String json = null;
     public static final String KEY = "+4xij6jQRSBdCymMxweza/uMYo+o0EUg";
-    String json2 = null;
     public static String usr;
-    private boolean tienePermisoCamara = false, tienePermisoInternet= false;
-    private static final int CODIGO_PERMISOS_CAMARA = 1, CODIGO_PERMISOS_INTERNET=2;
 
     //modificacion de validar
     private EditText pswds, usuario;
-    private TextView txtpas, txtusu;
+    private TextView txtpas, txtnewpass;
 
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
     byte[] res = null;
-    String pass;
+    byte[] res2 = null;
+    String pass, pass2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Permisos permisos = new Permisos();
-        permisos.verificarYPedirPermisosDeCamara(getApplicationContext(),Login.this);
-        permisos.verificarYPedirPermisosDeInternet(getApplicationContext(),Login.this);
         registro = (Button) findViewById(R.id.RegistroB);
-        BdUser Usuariobd = new BdUser(Login.this);
+
+        BdUser Usuariobd = new BdUser(Login2.this);
         if(Usuariobd.getUsuarios() == null){
             Toast.makeText(getApplicationContext(), "No hay usuarios registrados", Toast.LENGTH_LONG).show();
         }
@@ -65,7 +62,7 @@ public class Login extends AppCompatActivity {
         registro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent registro = new Intent(Login.this, Registro.class);
+                Intent registro = new Intent(Login2.this, Login.class);
                 startActivity(registro);
             }
         });
@@ -73,8 +70,7 @@ public class Login extends AppCompatActivity {
         usuario = findViewById(R.id.user);
 
         //modificacion validar
-        txtpas = findViewById(R.id.passwordId);
-        txtusu = findViewById(R.id.user);
+        txtnewpass = findViewById(R.id.newPass);
 
         pswds = findViewById(R.id.passwordId);
         //Read();
@@ -88,9 +84,11 @@ public class Login extends AppCompatActivity {
                     if (validar()) {
                         usr = String.valueOf(usuario.getText());
                         res = createSha1(String.valueOf(pswds.getText()) + "ola");
+                        res2 = createSha1(String.valueOf(txtnewpass.getText())+"ola");
                         if (res != null) {
                             Log.d(TAG, String.format("%s", bytesToHex(res)));
                             pass = bytesToHex(res);
+                            pass2 = bytesToHex(res2);
                         }
                         acceso();
                     } else {
@@ -103,23 +101,17 @@ public class Login extends AppCompatActivity {
 
             }
         });
-        Button OlvideContra = findViewById(R.id.olvidePassB);
-        OlvideContra.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                    Intent olvideContra = new Intent(Login.this, olvideContra.class);
-                    startActivity(olvideContra);
-            }
-        });
+
         //hasta aqui la funcionalidad de botones
     }
     private boolean validar() {
         boolean retorno = true;
-        String usuario1, password;
+        String usuario1, password, newpass;
         usuario1 = usuario.getText().toString();
         password = pswds.getText().toString();
+        newpass = txtnewpass.getText().toString();
         if (usuario1.isEmpty()) {
-            txtusu.setError("Ingrese su usuario");
+            usuario.setError("Ingrese su usuario");
             retorno = false;
         } else {
 
@@ -130,38 +122,15 @@ public class Login extends AppCompatActivity {
         } else {
 
         }
+        if (newpass.isEmpty()) {
+            txtpas.setError("Ingrese su contraseña");
+            retorno = false;
+        } else {
+
+        }
         return retorno;
     }
-    public boolean Read() {
-        if (!isFileExits()) {
-            return false;
-        }
-        MyDesUtil myDesUtil = null;
-        myDesUtil = new MyDesUtil();
-        File file = getFile();
-        FileInputStream fileInputStream = null;
-        byte[] bytes = null;
-        bytes = new byte[(int) file.length()];
-        try {
-            fileInputStream = new FileInputStream(file);
-            fileInputStream.read(bytes);
-            json2 = new String(bytes);
-            Log.d(TAG, json2);
-            if( isNotNullAndNotEmpty( KEY ) )
-            {
-                myDesUtil.addStringKeyBase64( KEY );
-            }
-            json = myDesUtil.desCifrar(json2);
-            if(!json.isEmpty()) {
-                Log.d(TAG, json);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
+
     public boolean isNotNullAndNotEmpty( String aux )
     {
         return aux != null && aux.length() > 0;
@@ -188,25 +157,21 @@ public class Login extends AppCompatActivity {
         return new File(getDataDir(), Registro.archivo);
     }
 
-    private boolean isFileExits() {
-        File file = getFile();
-        if (file == null) {
-            return false;
-        }
-        return file.isFile() && file.exists();
 
-    }//ojito
 
     public void acceso() {
         int i = 0;
-        BdUser Usuariobd = new BdUser(Login.this);
+        BdUser Usuariobd = new BdUser(Login2.this);
         MyInfo myInfo2 = Usuariobd.GetUsuario(usr);
+        Intent intent2 = getIntent();
+        String contraCorreo = intent2.getStringExtra("Contrasena" );
+        Usuariobd.editaContra(myInfo2.getIdUser(), pass2);
         if(myInfo2 == null){
             Toast.makeText(getApplicationContext(), "El usuario o contraseña son incorrectos", Toast.LENGTH_LONG).show();
         }else{
-            if (myInfo2.getUsuario().equals(usr) && myInfo2.getPassword().equals(pass)) {
+            if (myInfo2.getUsuario().equals(usr) && contraCorreo.equals(pass)) {
                 Toast.makeText(getApplicationContext(), "Inicio de sesión exitoso", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(Login.this, menu.class);
+                Intent intent = new Intent(Login2.this, Login.class);
                 intent.putExtra("MyInfo", myInfo2);
                 startActivity(intent);
                 i = 1;
@@ -246,29 +211,4 @@ public class Login extends AppCompatActivity {
         return new String(hexChars);
 
     }//modificacion validar
-
-    //Permisos------------------------------------------------------------------------------------------------------
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Permisos permisos = new Permisos();
-        switch (requestCode) {
-            case CODIGO_PERMISOS_CAMARA:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    permisos.permisoDeCamaraConcedido(getApplicationContext());
-                } else {
-                    permisos.permisoDeCamaraDenegado(getApplicationContext());
-                }
-                break;
-
-            case CODIGO_PERMISOS_INTERNET:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    permisos.permisoDeInternetConcedido(getApplicationContext());
-                } else {
-                    permisos.permisoDeInternetDenegado(getApplicationContext());
-                }
-                break;
-        }
-    }
-
 }
