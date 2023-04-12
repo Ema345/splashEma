@@ -98,6 +98,10 @@ public class Agregarcontra extends AppCompatActivity implements LocationListener
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] byteArray = stream.toByteArray();
+                if(lat.getText()=="" || lon.getText()==""){
+                    Toast.makeText(getBaseContext() , "No se puede colocar las coordenadas" , Toast.LENGTH_LONG );
+                    return;
+                }
                 BdContras contrasbd = null;
                 contrasbd = new BdContras(getBaseContext());
                 object = intent.getExtras().get("MyInfo");
@@ -147,6 +151,7 @@ public class Agregarcontra extends AppCompatActivity implements LocationListener
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
             lat.setText( "" );
             lon.setText( "" );
+            regiscontra.setEnabled( false );
         }
     }
 
