@@ -64,7 +64,10 @@ public class UsuariosContract implements Serializable {
                     "contra TEXT NOT NULL," +
                     "red TEXT NOT NULL," +
                     "idusu INTEGER NOT NULL," +
-                    "imagen INTEGER NOT NULL)";
+                    "imagen INTEGER NOT NULL," +
+                    "data BLOB," +
+                    "latitud TEXT NOT NULL," +
+                    "longitud TEXT NOT NULL)";
             return table;
         }
         public static ContentValues toContentValues(MyData myData)
@@ -74,6 +77,9 @@ public class UsuariosContract implements Serializable {
             values.put("red", myData.getRed());
             values.put("idusu", myData.getIdContra());
             values.put("imagen", myData.getImage());
+            values.put("data", myData.getData());
+            values.put("latitud",myData.getLatitud());
+            values.put("longitud",myData.getLongitud());
 
             return values;
         }

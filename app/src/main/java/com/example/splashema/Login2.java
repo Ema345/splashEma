@@ -51,7 +51,7 @@ public class Login2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login2);
         registro = (Button) findViewById(R.id.RegistroB);
 
         BdUser Usuariobd = new BdUser(Login2.this);
@@ -130,33 +130,6 @@ public class Login2 extends AppCompatActivity {
         }
         return retorno;
     }
-
-    public boolean isNotNullAndNotEmpty( String aux )
-    {
-        return aux != null && aux.length() > 0;
-    }
-
-    public void json2List(String json) {
-        Gson gson = null;
-        String mensaje = null;
-        if (json == null || json.length() == 0) {
-            Toast.makeText(getApplicationContext(), "Error json null or empty", Toast.LENGTH_LONG).show();
-            return;
-        }
-        gson = new Gson();
-        Type listType = new TypeToken<ArrayList<MyInfo>>() {
-        }.getType();
-        list = gson.fromJson(json, listType);
-        if (list == null || list.size() == 0) {
-            Toast.makeText(getApplicationContext(), "Error list is null or empty", Toast.LENGTH_LONG).show();
-            return;
-        }
-    }
-
-    private File getFile() {//
-        return new File(getDataDir(), Registro.archivo);
-    }
-
 
 
     public void acceso() {

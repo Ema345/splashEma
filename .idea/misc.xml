@@ -3,8 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidProjects/splashEma/app/src/main/res/layout/activity_agregarcontra.xml" value="0.22826086956521738" />
+        <entry key="..\:/AndroidProjects/splashEma/app/src/main/res/layout/activity_list_view.xml" value="0.25416666666666665" />
         <entry key="..\:/AndroidProjects/splashEma/app/src/main/res/layout/activity_login.xml" value="0.22826086956521738" />
         <entry key="..\:/AndroidProjects/splashEma/app/src/main/res/layout/activity_login2.xml" value="0.22826086956521738" />
+        <entry key="..\:/AndroidProjects/splashEma/app/src/main/res/layout/activity_main.xml" value="0.11302083333333333" />
+        <entry key="..\:/AndroidProjects/splashEma/app/src/main/res/layout/activity_mapa.xml" value="0.25416666666666665" />
+        <entry key="..\:/AndroidProjects/splashEma/app/src/main/res/layout/activity_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/AndroidProjects/splashEma/app/src/main/res/layout/activity_olvide_contra.xml" value="0.22826086956521738" />
         <entry key="..\:/AndroidProjects/splashEma/app/src/main/res/layout/login2.xml" value="0.22826086956521738" />
       </map>

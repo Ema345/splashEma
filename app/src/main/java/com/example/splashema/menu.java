@@ -27,7 +27,7 @@ import java.util.List;
 
 public class menu extends AppCompatActivity {
     private TextView usuario;
-    private Button api;
+    private Button api, Csesion;
     private ListView listView;
     private List<MyData> list;
     public static String TAG = "Menu";
@@ -47,9 +47,17 @@ public class menu extends AppCompatActivity {
         BdContras contrasbd = null;
         contrasbd = new BdContras(getBaseContext());
         api = findViewById(R.id.config);
+        Csesion = findViewById(R.id.Csesion);
         usuario = findViewById(R.id.textUser);
         Intent intent = getIntent();
         listView = (ListView) findViewById(R.id.listViewId);
+        Csesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(menu.this, Login.class);
+                startActivity(intent);
+            }
+        });
         api.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,6 +65,7 @@ public class menu extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         list = new ArrayList<MyData>();
         if( intent != null)
         {
@@ -72,7 +81,7 @@ public class menu extends AppCompatActivity {
                         info = (MyInfo) object;
                         usuario.setText("Bienvenido " + info.getUsuario() + " de edad " + info.getEdad());
                         idusu = info.getIdUser();
-                        Log.d(TAG, String.valueOf(idusu));
+                        Log.d("Id usu", String.valueOf(idusu));
                         list = contrasbd.getContras(idusu);
                         if(list == null){
                             Toast.makeText(getBaseContext(), "No hay contras", Toast.LENGTH_SHORT).show();
@@ -134,7 +143,19 @@ public class menu extends AppCompatActivity {
     }
     private void toast( int i )
     {
+        MyInfo info = null;
+        Object object = null;
+        Intent intent = getIntent();
+        object = intent.getExtras().get("MyInfo");
+        info = (MyInfo) object;
         Toast.makeText(getBaseContext(), list.get(i).getContra(), Toast.LENGTH_SHORT).show();
+        String Latitud = list.get(i).getLatitud();
+        String Longitud = list.get(i).getLongitud();
+        Intent mapa = new Intent(menu.this,mapa.class);
+        mapa.putExtra("MyInfo",info);
+        mapa.putExtra("Latitud",Latitud);
+        mapa.putExtra("Longitud",Longitud);
+        startActivity(mapa);
     }
 
 }

@@ -32,7 +32,7 @@
     <string name="agregar">Agregar contraseña</string>
     <string name="eliminar">Eliminar contraseña</string>
     <string name="editar">Editar contraseña</string>
-    <string name="nota">Nota: solo se pueden agregar 10 contraseñas máximo</string>
+    <string name="nota">Nota: Al hacer click en la contraseña se redirigira a un mapa con la ubicacion donde registro la contraseña</string>
     <string name="nuevacontra">Ingresa la nueva contraseña</string>
     <string name="nuevacontra2">Nueva contraseña</string>
     <string name="red_social">Red social:</string>

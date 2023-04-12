@@ -48,7 +48,7 @@ public class olvideContra extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_olvide_contra);
-        olvideContra = findViewById(R.id.button);
+        olvideContra = findViewById(R.id.olvidecontra);
         Regresar = findViewById(R.id.button2);
         usuario = findViewById(R.id.confirmusuario);
         Regresar.setOnClickListener(new View.OnClickListener() {
@@ -85,27 +85,54 @@ public class olvideContra extends AppCompatActivity {
                 if(usu.equals(info.getUsuario())){
                 correo = info.getCorreo();
                 password = String.format ("Contrasena%d", (int)(Math.random()*100));
-                mens = "<html>\n" +
-                        "    <head>\n" +
-                        "        <style type=\"text/css\">\n" +
-                        "         p { color: black; font-family: Calisto MT; font-size: 30px; }\n" +
-                        "         </style>\n" +
-                        "        <title>Correo</title>\n" +
-                        "        <meta charset=\"UTF-8\">\n" +
-                        "        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
-                        "        \n" +
-                        "    </head>\n" +
-                        "    \n" +
-                        "    <body style=\"background-color: #F0F8FF;\">\n" +
-                        "        <div style=\"text-align: center;\"><center>\n" +
-                        "            <p>Gracias por usar nuestra aplicación:)</p>\n" +
-                        "            <img src=\"https://blobs.omlet.gg/blob/bG9uZ2RhbjovL09ORS9sZHByb2QtdXMveU8wbERiWWZWWmhuNU90Mmtmc0ZPUT09\" width=\"150\" height=\"150\"  />\n" +
-                        "            <br>\n" +
-                        "            <p>Tu nueva contraseña es: "+ password +"</p>\n" +
-                        "            </center>\n" +
-                        "        </div>\n" +
-                        "    </body>\n" +
-                        "</html>\n";
+                mens = "<html lang=\"es\">\n" +
+                        "  <head>\n" +
+                        "    <meta charset=\"UTF-8\">\n" +
+                        "    <title>Instituto Politécnico Nacional</title>\n" +
+                        "    <style>\n" +
+                        "      /* Estilos para el encabezado */\n" +
+                        "      header {\n" +
+                        "        background-color: #00529B;\n" +
+                        "        color: white;\n" +
+                        "        padding: 10px;\n" +
+                        "        text-align: center;\n" +
+                        "\t\n" +
+                        "        font-size: 24px;\n" +
+                        "        font-weight: bold;\n" +
+                        "        margin-bottom: 20px;\n" +
+                        "      }\n" +
+                        "\tp { color: black; font-family: Calisto MT; font-size: 30px; text-align:center;}\n" +
+                        "\n" +
+                        "      /* Estilos para el logo */\n" +
+                        "      #logo {\n" +
+                        "        display: inline-block;\n" +
+                        "        margin-right: 10px;\n" +
+                        "      }\n" +
+                        "\n" +
+                        "      /* Estilos para el texto */\n" +
+                        "      #encabezado {\n" +
+                        "        display: inline-block;\n" +
+                        "        font-size: 30px;\n" +
+                        "        font-weight: normal;\n" +
+                        "\tfont-family: Verdana, sans-serif;\n" +
+                        "      }\n" +
+                        "\tbody{\n" +
+                        "\tbackground-color: #FFF0C9;\n" +
+                        "\t}\n" +
+                        "    </style>\n" +
+                        "  </head>\n" +
+                        "  <body>\n" +
+                        "    <header>\n" +
+                        "      <img src=\"https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_IPN.png\" width =\"120px\" alt=\"Logo del Instituto Politécnico Nacional\" id=\"logo\">\n" +
+                        "      <span id=\"encabezado\">Instituto Politécnico Nacional</span>\n" +
+                        "\t<img src=\"https://coatl.cecyt9.ipn.mx/ofertaEducativa/img/escudoCECyT9.png\" width =\"120px\"  alt=\"Logo del Instituto Politécnico Nacional\" id=\"logo\">\n" +
+                        "    </header>\n" +
+                        "<div>\n" +
+                        "\t<p>Gracias por usar nuestra aplicación "+(info.getUsuario())+"</p>\n" +
+                        "\t<p>Tu nueva contraseña es: "+ password +"</p>\n" +
+                        "</div>\n" +
+                        "  </body>\n" +
+                        "</html>";
                 res = createSha1(password+"ola");
                 pass = bytesToHex(res);
                 //correcto = Usuariobd.editaContra(info.getIdUser(),pass);
@@ -147,7 +174,6 @@ public class olvideContra extends AppCompatActivity {
                     {
                         Log.i( TAG , "Registro modificado, Se envio");
                         Toast.makeText(getBaseContext() , "Revise su correo" , Toast.LENGTH_LONG ).show();
-                        return;
                     }else{
                         Toast.makeText(getBaseContext() , "Error en el envío" , Toast.LENGTH_LONG ).show();
                     }
@@ -155,9 +181,9 @@ public class olvideContra extends AppCompatActivity {
                 }else{
                     Toast.makeText(getBaseContext() , "Usuario incorrecto" , Toast.LENGTH_LONG ).show();
                 }
-                Intent intent = new Intent(olvideContra.this, Login2.class);
-                intent.putExtra("Contrasena", pass);
-                startActivity(intent);
+                Intent intent2 = new Intent(olvideContra.this,Login2.class);
+                intent2.putExtra("Contrasena", pass);
+                startActivity(intent2);
             }
         });
     }

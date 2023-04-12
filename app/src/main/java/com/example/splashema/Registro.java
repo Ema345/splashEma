@@ -58,7 +58,7 @@ public class Registro extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
-        lista = new ArrayList<MyData>();
+        lista = null;
         sexoB = (RadioButton)findViewById(R.id.radioBMujer);
         SwitchH= (Switch) findViewById(R.id.idswitch);
         login = (Button)findViewById(R.id.sesion);
@@ -114,12 +114,14 @@ public class Registro extends AppCompatActivity {
                 contrasbd = new BdContras(getBaseContext());
                 BdUser usuariosDB = null;
                 usuariosDB = new BdUser( getBaseContext( ) );
-                int id = 1;
+                int id = 0;
                 if(usuariosDB.getUsuarios() == null){
-                    id = 1;
+                    id = 0;
+                    Log.d("Id usuario", String.valueOf(id));
                 }
                 else{
-                    id = (usuariosDB.getUsuarios().size())+1;
+                    id = (usuariosDB.getUsuarios().size());
+                    Log.d("Id usuario", String.valueOf(id));
                 }
                 res = createSha1(String.valueOf(pswd.getText())+"ola");
                 if( res != null ) {
@@ -147,7 +149,7 @@ public class Registro extends AppCompatActivity {
                 }else{
                     hijos = "sin hijos";
                 }
-                MyData myData = null;
+                /*MyData myData = null;
                 for( int i = 0; i < 3; i++)
                 {
                     myData = new MyData();
@@ -171,7 +173,7 @@ public class Registro extends AppCompatActivity {
                         Log.d(TAG,"Contraseña guardada");
                     }
                     lista.add(myData);
-                }
+                }*/
                 //List<MyInfo> usuarios = null;
 
                 MyInfo info= new MyInfo();
@@ -190,7 +192,6 @@ public class Registro extends AppCompatActivity {
                 if(usuariosDB.saveUsuario(info)){
                     Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_LONG).show();
                 }
-
             }
         });
     }

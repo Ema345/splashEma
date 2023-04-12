@@ -1,6 +1,8 @@
 package com.example.splashema.MyAdapter;
 
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.widget.BaseAdapter;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -59,20 +61,22 @@ public class MyAdapter extends BaseAdapter implements Serializable {
     {
         return i;
     }
-
+    //Modificar MyAdapter agregar el imageview
     @Override
     public View getView(int i, View view, ViewGroup viewGroup)
     {
         TextView textView = null;
         TextView textView2 = null;
         ImageView imageView = null;
+        byte[] imagenBytes = list.get(i).getData();
+        Bitmap imagenBitmap = BitmapFactory.decodeByteArray(imagenBytes, 0, imagenBytes.length);
         view = layoutInflater.inflate(R.layout.activity_list_view, null );
         textView = view.findViewById(R.id.textViewId2);
         textView2 = view.findViewById(R.id.textViewId1);
         textView.setText(list.get(i).getContra());
         textView2.setText(list.get(i).getRed());
         imageView = view.findViewById(R.id.imageView5);
-        imageView.setImageResource(list.get(i).getImage());
+        imageView.setImageBitmap(imagenBitmap);
         return view;
     }
 }
